@@ -1,0 +1,111 @@
+{% extends 'pg.html' %} 
+{% block scr %} <script src="/static/js/validar.js"></script> {% endblock %}
+{% block titulo %} <title>Registro</title> {% endblock %}
+{% block jumbo %} Registrar Usuario {% endblock %}
+{% block cuerpo %}
+	
+    <!-- Modal Fade Politicas si hay errores en javascript aparece este modal-->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-h  idden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h4 class="modal-title">Errores</h4>
+                                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                        </div>
+                <div class="modal-body">
+                    <div class="container-fluid">
+                      <p class="h8 mb-3"id="errores"></p>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {% if errores %}
+
+        <!-- Modal si hay errores en backend-->
+        <div class="modal fade" id="modelIdE" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-h  idden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h4 class="modal-title">Errores</h4>
+                                    <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <ul class="list-group list-group-flush">
+                                {% for error in errores %}
+                                <li class="list-group-item">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-light" data-toggle="popover" title="Politica de Contraseñas" data-placement="left" data-html="true" data-content="La contraseña debe tener solo letras y numeros del alfabeto latino.<br/>
+                          La contraseña debe tener al menos:<br/>
+                            8 caracteres<br/>
+                            1 letra mayuscula<br/>
+                            1 numero<br/>
+                            1 letra minuscula <br/>
+                            1 caracter exclusivo(.,*!?@¿¡/#$%&)">Politica de contraseñas</button>
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block scri %} <script>
+            $(function(){
+                $('[data-toggle="popover"]').popover();
+                $("#modelIdE").modal('toggle');
+            });
+        </script> {% endblock %}
+
+    {% endif %}
+
+    <!-- Formulario -->
+    <div class="container">
+        <form id="formulario" action="/registrar" method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="nombre">Nombre Completo</label>
+                <input type="text" name="nombre" id="nombre" class="form-control" placeholder="Nombre completo con apellidos" value="{{ usuario.nombre }}">
+            </div>
+
+            <div class="form-group">
+              <label for="nick">Usuario</label>
+              <input type="text" name="nick" id="nick" class="form-control" placeholder="Nombre con el que desea ser reconocido" value="{{ usuario.nick }}" >
+            </div>
+            
+            <div class="form-group">
+              <label for="correo">Correo Electronico</label>
+              <input type="email" class="form-control" name="correo" id="correo" aria-describedby="emailHelpId" placeholder="Correo Electronico" value="{{ usuario.correo }}">
+              <small id="emailHelpId" class="form-text text-muted">email@example.com</small>
+            </div>
+            
+            <div class="row">
+                <div class="form-group col-sm-6">
+                  <label for="contra">Contraseña</label>
+                  <input type="password" class="form-control" name="contra" id="contra" placeholder="Contraseña" aria-describedby="contraHelpId">
+                  <small id="contraHelpId" class="form-text text-muted"></small>
+            </div>
+            <div class="form-group col-sm-6">
+                    <label for="contrac">Confirmar Contraseña</label>
+                    <input type="password" class="form-control" name="contrac" id="contrac" placeholder="Confirmar Contraseña">
+                </div>
+            </div>
+            
+            <button type="submit" class="btn btn-primary" >Registrar</button>
+        </form>
+
+        
+    </div>
+
+{% endblock %}

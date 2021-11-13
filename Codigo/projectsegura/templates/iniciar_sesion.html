@@ -1,0 +1,118 @@
+{% extends 'pg.html' %} 
+
+{% block titulo %} <title>ListadoCredenciales</title> {% endblock %}
+{% block jumbo %} Iniciar Sesión {% endblock %}
+{% block cuerpo %}
+	
+    <div class="container">
+        <div class="row" style="height: 33px;"></div>
+    </div>
+
+    {% if okay %}
+    
+    <!-- Modal Descarga -->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-h  idden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h4 class="modal-title">Ingresar codigo</h4>
+                                <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                    <span aria-hidden="true">&times;</span>
+                                </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="container-fluid">
+                            <form action="/iniciar_sesion" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="formDos"> <!-- identificar formulario -->
+                                <input type="hidden" name="usuario" id="usuario" value="{{ usuario }}">
+                                <input type="hidden" name="password" id="password" value="{{ contra }}">
+                                <div class="form-group">
+                                    <label for="codigo">Codigo de Verificacion</label>
+                                    <input type="text" name="codigo" id="codigo" class="form-control" placeholder="Codigo de verificacion" value="{{ codigot }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Enviar</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {% if erroresf2 %}
+                             {% for error in erroresf2 %}
+                                <li class="list-group-item">{{ error }}</li>
+                             {% endfor %}
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    {% block scr %} <script>
+        $(function(){
+            $("#modelId").modal('toggle');
+        });
+    </script> {% endblock %}
+    
+    {% endif %}
+
+    {% if errores %}
+
+        <!-- Modal backend -->
+        <div class="modal fade" id="modelIdE" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-h  idden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h4 class="modal-title">Errores</h4>
+                                    <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <ul class="list-group list-group-flush">
+                                {% for error in errores %}
+                                <li class="list-group-item">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block scri %} <script>
+            $(function(){
+                $("#modelIdE").modal('toggle');
+            });
+        </script> {% endblock %}
+
+    {% endif %}
+
+    <!-- Formulario ingresar -->
+    <div class="container">
+        <form action="/iniciar_sesion" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="formUno"> <!-- identificar formulario -->
+            <div class="form-group">
+                <label for="usuario">Usuario</label>
+                <input type="text" name="usuario" id="usuario" class="form-control" placeholder="Usuario" value="{{ usuario }}">
+            </div>
+            <div class="form-group">
+                <label for="contraseña">Contraseña</label>
+                <input type="password" class="form-control" name="password" id="password" placeholder="Contraseña" value="{{ contra }}">
+            </div>
+
+            <div class="container">
+                Si no te has registrado: <a href="/registrar">Registrate</a>
+            </div>
+            <div class="container">
+                <div class="row" style="height: 30px;"></div>
+            </div>
+            <button type="submit" class="btn btn-primary">Ingresar</button>
+        </form>
+    </div>
+
+    
+{% endblock %}

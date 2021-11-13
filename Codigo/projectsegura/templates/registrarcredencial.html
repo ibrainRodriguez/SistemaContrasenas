@@ -1,0 +1,130 @@
+{% extends 'pg.html' %} 
+
+{% block titulo %} <title>RegistrarCredenciales</title> {% endblock %}
+{% block jumbo %} Registrar Credencial {% endblock %}
+{% block cuerpo %}
+
+    {% if okay %}
+    
+    <!-- Modal ingresa aqui la contraseña -->
+    <div class="modal fade" id="modelId" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-h  idden="true">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                    <div class="modal-header">
+                            <h4 class="modal-title">Ingresar tu contraseña</h4>
+                            <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                    </div>
+                    <div class="modal-body text-center">
+                        <div class="container-fluid">
+                            <form action="/registrar_credencial" method="post">
+                                {% csrf_token %}
+                                <input type="hidden" name="form_type" value="formDos"> <!-- identificar formulario -->
+                                <input type="hidden" name="nomCuenta" id="nomCuenta" value="{{ nomCuenta }}">
+                                <input type="hidden" name="usuarioC" id="usuarioC" value="{{ usuarioC }}">
+				                <input type="hidden" name="contrasena" id="contrasena" value="{{ contrasena }}">
+				                <input type="hidden" name="url" id="url" value="{{ url }}">
+                                <div class="form-group">
+                                    <label for="contraseñaM">Contraseña</label>
+                                    <input type="text" name="contrasenaM" id="contrasenaM" class="form-control" placeholder="contraseña maestra" value="{{ contrasenaM }}">
+                                </div>
+                                <button type="submit" class="btn btn-primary">Confirmar</button>
+                            </form>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        {% if erroresf2 %}
+                             {% for error in erroresf2 %}
+                                <li class="list-group-item">{{ error }}</li>
+                             {% endfor %}
+                        {% endif %}
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    {% block scr %} <script>
+        $(function(){
+            $("#modelId").modal('toggle');
+        });
+    </script> {% endblock %}
+    
+    {% endif %}
+
+    {% if errores %}
+
+        <!-- Modal si hay errores en backend-->
+        <div class="modal fade" id="modelIdE" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-h  idden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h4 class="modal-title">Errores</h4>
+                                    <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <ul class="list-group list-group-flush">
+                                {% for error in errores %}
+                                <li class="list-group-item">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block scri %} <script>
+            $(function(){
+                $('[data-toggle="popover"]').popover();
+                $("#modelIdE").modal('toggle');
+            });
+        </script> {% endblock %}
+
+    {% endif %}
+
+    <!-- Formulario -->
+    <div class="container">
+        <form id="formulario" action="/registrar_credencial" method="POST">
+            {% csrf_token %}
+            <input type="hidden" name="form_type" value="formUno"> <!-- identificar formulario -->
+
+            <div class="form-group">
+              <label for="nomCuenta">Nombre Cuenta</label>
+              <input type="text"
+                class="form-control" name="nomCuenta" id="nomCuenta" aria-describedby="helpId" placeholder="nombre de la cuenta o servicio" value="{{ nomCuenta }}">
+            </div>
+
+            <div class="form-group">
+              <label for="usuarioC">Usuario</label>
+              <input type="text" name="usuarioC" id="usuarioC" class="form-control" placeholder="Nombre con el que se registro en la cuenta o servicio" value="{{ usuarioC }}" >
+            </div>
+            
+            <div class="form-group">
+                <label for="contraseña">Contraseña</label>
+                <input type="password" class="form-control" name="contrasena" id="contrasena" placeholder="Contraseña de la cuenta o servicio" value="{{ contrasena }}">
+            </div>
+            
+            <div class="form-group">
+              <label for="url">URL</label>
+              <input type="url"
+                class="form-control" name="url" id="url" aria-describedby="helpId" placeholder="Url del servicio" value="{{ url }}">
+              <small id="helpId" class="form-text text-muted">http://www.sitio.com</small>
+            </div>
+            
+            <div class="container">
+                <div class="row" style="height: 30px;"></div>
+            </div>
+
+            <button type="submit" class="btn btn-primary" >Registrar</button>
+        </form>
+
+        
+    </div>
+{% endblock %}

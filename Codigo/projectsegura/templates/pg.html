@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="es-MX">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  {% block estilos %} {% endblock %}
+  
+  <style>
+    html{
+      height: 100%;
+    }
+
+    body{
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    footer{
+      position: sticky;
+      top: 100%;
+
+    }
+  </style>
+
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+  <script src="/static/js/generar.js"></script>
+
+  
+  {% block scri %} {% endblock %}
+
+  {% block scr %} {% endblock %}
+
+  {% block titulo %} {% endblock %}
+</head>
+
+<body>
+
+  <header class="container">
+    <h1 class="jumbotron" style="text-align: center;">{% block jumbo %}{% endblock %}</h1>
+  </header>
+
+  <!-- Contenedor para barra de navegacion-->
+  
+    <nav class="navbar navbar-expand-sm bg-dark navbar-dark">
+      <a class="navbar-brand" href="/iniciar_sesion" >
+        <b>&lt; / &gt;</b>
+      </a>
+      <button class="navbar-toggler" data-target="#menu" data-toggle='collapse' type="button">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <!-- Barra de navegacion -->
+      <div class="collapse navbar-collapse" id='menu'>
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item ">
+              <a class="nav-link" href="/registrar_credencial">Registrar Credencial</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/ver_listado">Ver credenciales</a>
+            </li>
+            {% block compartirCredencial %}  {% endblock %}
+        </ul>
+      </div>
+      <div class="collapse navbar-collapse" id="menu">
+        <ul class="navbar-nav ml-auto">
+          <li>
+            <a class="btn btn-danger" role="button" href="/logout">Cerrar Sesion</a>
+          </li>
+        </ul>
+      </div>
+    </nav>
+  
+
+  <div class="container">
+      <div class="row" style="height: 30px;"></div>
+  </div>
+
+  {% block cuerpo%}{% endblock %}
+
+  <div class="container">
+    <div class="row" style="height: 35px;"></div>
+  </div>
+
+  <footer class="container-fluid bg-primary text-white" >
+    <div class="footer-copyright text-center py-3">Proyecto final &diams; Programación Segura
+      <a class="text-white" href="https://uv.mx/fei"><br> Facultad de estadistica e informatica</br></a>
+    </div>
+  </footer>
+
+</body>
+
+</html>

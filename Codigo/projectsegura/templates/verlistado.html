@@ -1,0 +1,55 @@
+{% extends 'pg.html' %} 
+
+{% block titulo %} <title>ListadoCredenciales</title> {% endblock %}
+{% block jumbo %} Listado De Cuentas {% endblock %}
+{% block cuerpo %}
+
+
+	{% if errores %}
+
+        <!-- Modal si hay errores en backend-->
+        <div class="modal fade" id="modelIdE" tabindex="-1" role="dialog" aria-labelledby="modelTitleId" aria-h  idden="true">
+            <div class="modal-dialog modal-dialog-centered" role="document">
+                <div class="modal-content">
+                        <div class="modal-header">
+                                <h4 class="modal-title">Errores</h4>
+                                    <button type="button" class="close text-danger" data-dismiss="modal" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                            </div>
+                    <div class="modal-body">
+                        <div class="container-fluid">
+                            <ul class="list-group list-group-flush">
+                                {% for error in errores %}
+                                <li class="list-group-item">{{ error }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-sm btn-light" data-toggle="popover" title="Politica de Contraseñas" data-placement="left" data-html="true" data-content="La contraseña debe tener solo letras y numeros del alfabeto latino.<br/>
+                          La contraseña debe tener al menos:<br/>
+                            8 caracteres<br/>
+                            1 letra mayuscula<br/>
+                            1 numero<br/>
+                            1 letra minuscula <br/>
+                            1 caracter exclusivo(.,*!?@¿¡/#$%&)">Politica de contraseñas</button>
+                        <!-- <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% block scri %} <script>
+            $(function(){
+                $('[data-toggle="popover"]').popover();
+                $("#modelIdE").modal('toggle');
+            });
+        </script> {% endblock %}
+
+    {% endif %}
+
+    
+
+
+{% endblock %}
