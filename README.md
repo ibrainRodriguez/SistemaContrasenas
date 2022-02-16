@@ -1,4 +1,4 @@
-# Sistema Contrasenas Desarrolado en Django
+# Sistema Contrasenas Desarrollado en Django
 Proyecto sistema de administracion de contraseñas, de la experiencia educativa Programacion Segura
 
 # Descripcion
